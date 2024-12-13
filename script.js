@@ -18,7 +18,7 @@ function gameCreate(){
 }
 
 // Function to create players requires a name to be sent then intiate called on it to work
-function createPlayer(n){
+function createPlayer(n,s){
     // Essentially variable that are private for each player and can only be manipulated by using the functions provided by the object.
     let name = n;
     let sign;
@@ -27,13 +27,35 @@ function createPlayer(n){
 
     // Functions you can call to assign player a sign/playernumber
     function initiate(){
-        if(playerSign.length > 0 && this.sign === undefined){
-            sign = playerSign.shift();
-            player = playerNum.shift();
-            players.push(this);
-            console.log(players);
-        }else if(playerSign.length === 0){
-            console.log('Two Playes Exists Already');
+        if(s === 'X'){
+            if(playerSign.length > 0 && sign === undefined){
+                sign = playerSign.shift();
+                player = playerNum.shift();
+                players.push(this);
+                console.log(players);
+            }else if(playerSign.length === 0){
+                console.log('Two Playes Exists Already');
+            }
+        }else if(s === 'O'){
+            if(playerSign.length > 0 && sign === undefined){
+                sign = playerSign.pop();
+                player = playerNum.pop();
+                players.push(this);
+                console.log(players);
+            }else if(playerSign.length === 0){
+                console.log('Two Playes Exists Already');
+            }
+        }else if(s === undefined){
+            if(playerSign.length > 0 && sign === undefined){
+                sign = playerSign.shift();
+                player = playerNum.shift();
+                players.push(this);
+                console.log(players);
+            }else if(playerSign.length === 0){
+                console.log('Two Playes Exists Already');
+            }
+        }else{
+            return 'Please enter X or O!'
         }
     }
     // Function to update player variables
@@ -59,3 +81,15 @@ function createPlayer(n){
 
     return{initiate,increaseMove,resetMoves,howManyMoves,getSign,getName};
 }
+
+// Function that handles game logic
+function playGame(parray,currBoard){
+
+}
+
+let mason = createPlayer('Mason','O');
+let mack = createPlayer('Mack','O')
+console.log(mason.initiate());
+console.log(mack.initiate());
+console.log(mason.getName(),mason.getSign());
+console.log(mack.getName(),mack.getSign());
