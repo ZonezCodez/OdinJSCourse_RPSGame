@@ -2,16 +2,55 @@ let players = [];
 let playerSign = ['X','O'];
 let playerNum = ['1','2'];
 
-function gameCreate(){
-    let gameBoard = [{},{},{},
-                     {},{},{}, // This is 3 lines to help visualize the game board.
-                     {},{},{}];
+function gameBoardCreate(){
+    let gameBoard = [[],[],[],
+                     [],[],[],
+                     [],[],[]];
 
-    function update(){
+    function update(gameBoardDom){
         // This function will look at the gameboard divs and update the gameboard approprietly
         gameBoard.forEach(ele => {
             
         });
+    }
+
+    function checkWin(boardObj){
+        // This function will be called after every move to see if their is any winners or a tie
+        players.forEach(player => {
+            if(gameBoard[0] === player.getSign() && 
+            gameBoard[1] === player.getSign() && 
+            gameBoard[2] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[0] === player.getSign() && 
+            gameBoard[3] === player.getSign() && 
+            gameBoard[6] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[0] === player.getSign() && 
+            gameBoard[4] === player.getSign() && 
+            gameBoard[8] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[1] === player.getSign() && 
+            gameBoard[4] === player.getSign() && 
+            gameBoard[7] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[2] === player.getSign() && 
+            gameBoard[5] === player.getSign() && 
+            gameBoard[8] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[2] === player.getSign() && 
+            gameBoard[4] === player.getSign() && 
+            gameBoard[6] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[3] === player.getSign() && 
+            gameBoard[4] === player.getSign() && 
+            gameBoard[5] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            }else if(gameBoard[6] === player.getSign() && 
+            gameBoard[7] === player.getSign() && 
+            gameBoard[8] === player.getSign()){
+                console.log(player.getName(),player.getSign());
+            };
+        });        
     }
 
     return {gameBoard};
@@ -86,10 +125,3 @@ function createPlayer(n,s){
 function playGame(parray,currBoard){
 
 }
-
-let mason = createPlayer('Mason','O');
-let mack = createPlayer('Mack','O')
-console.log(mason.initiate());
-console.log(mack.initiate());
-console.log(mason.getName(),mason.getSign());
-console.log(mack.getName(),mack.getSign());
