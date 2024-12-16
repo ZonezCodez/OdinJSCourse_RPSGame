@@ -194,7 +194,7 @@ function createPlayer(n,s){
 }
 
 // This function grabs the innerboard turns it into an array of each text value in order to replace our original gameboard
-function ui(){
+let UI = (function ui(){
     let uiboard;
     let inZero = document.getElementById('zero');
     let inOne = document.getElementById('one');
@@ -344,7 +344,7 @@ function ui(){
     // This function will update the ui with whatever sign the player has
     function updateUi(event){
         if(game.getTurnCount() === 1 || game.getTurnCount() === 3 || game.getTurnCount() === 5 || game.getTurnCount() === 7 || game.getTurnCount() === 9){
-            if(event.target.textContent === ''){
+            if(event.target.textContent === '' && players.length === 2){
                 let currS = 'X'
                 event.target.textContent = currS;
                 return;
@@ -352,7 +352,7 @@ function ui(){
                 return;
             }
         }else if(game.getTurnCount() === 2 || game.getTurnCount() === 4 || game.getTurnCount() === 6 || game.getTurnCount() === 8 || game.getTurnCount() === 10){
-            if(event.target.textContent === ''){
+            if(event.target.textContent === '' && players.length === 2){
                 let currS = 'O'
                 event.target.textContent = currS;
                 return;
@@ -378,11 +378,10 @@ function ui(){
     }
 
     return{boardFetch,addListeners,resetUI};
-};
+})();
 
 let mason = createPlayer('Mason');
 mason.initiate();
 let computer = createPlayer('Computer');
 computer.initiate();
-let UI = ui();
 UI.addListeners();
