@@ -1,8 +1,6 @@
 let players = [];
 let playerSign = ['X','O'];
 let playerNum = ['1','2'];
-let player1 = players[0];
-let player2 = players[1];
 
 let game = (function gameBoardCreate(){
     let gameBoard = ['','','',
@@ -112,8 +110,6 @@ let game = (function gameBoardCreate(){
         players = [];
         playerSign = ['X','O'];
         playerNum = ['1','2'];
-        player1 = players[0];
-        player2 = players[1];
         return ;
     }
 
@@ -138,16 +134,18 @@ function createPlayer(n,s){
 
     // Functions you can call to assign player a sign/playernumber
     function initiate(){
-        if(s === 'X'){
+        if(s == 'X'){
             if(playerSign.length > 0 && sign === undefined){
                 sign = playerSign.shift();
                 player = playerNum.shift();
                 players.push(this);
+                return;
                 //console.log(players);
             }else if(playerSign.length === 0){
                 console.log('Two Playes Exists Already');
+                return;
             }
-        }else if(s === 'O'){
+        }else if(s == 'O'){
             if(playerSign.length > 0 && sign === undefined){
                 sign = playerSign.pop();
                 player = playerNum.pop();
@@ -376,12 +374,50 @@ let UI = (function ui(){
         inSeven.textContent = '';
         inEight.textContent = '';
     }
+    // This will handle swapping the form ui around
+    function formOneHandler(){
+        let computerPlay = document.getElementById('pCom');
+        computerPlay.style.display = 'none';
+        return;
+    }
 
-    return{boardFetch,addListeners,resetUI};
+    function formTwoHandler(){
+        let formId = document.getElementById('form');
+        let boardG = document.getElementById('gameBody');
+        formId.style.display = 'none';
+        boardG.style.display = 'grid';
+        UI.addListeners();
+        return;
+    }
+    return{boardFetch,addListeners,resetUI,formOneHandler,formTwoHandler};
 })();
+// This factory will handle the form data and swapping the ui to start a game
+let formHandler = (function handleForms(){
+    let player1;
+    let player2;
+    let formSubmissions = 1;
+    let form = document.getElementById('form');
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let formData = new FormData(form);
+        let nameForm = formData.get('name');
+        let computerForm = formData.get('playCom');
+        let dataObject = {nameForm,computerForm}
+        submission(dataObject);
+        form.reset();
+    });
 
-let mason = createPlayer('Mason');
-mason.initiate();
-let computer = createPlayer('Computer');
-computer.initiate();
-UI.addListeners();
+    function submission(dataObj){
+        if(formSubmissions === 1){
+            console.log(dataObj,dataObj.signForm);
+            player1 = createPlayer(dataObj.nameForm);
+            player1.initiate();
+            UI.formOneHandler();
+            formSubmissions = 2;
+        }else if(formSubmissions === 2){
+            player2 = createPlayer(dataObj.nameForm);
+            player2.initiate();
+            UI.formTwoHandler();
+            formSubmissions = 3;        }
+    }
+})();
