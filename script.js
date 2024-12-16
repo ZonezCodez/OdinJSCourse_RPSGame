@@ -22,6 +22,7 @@ let game = (function gameBoardCreate(){
             //Will do this stuff after 2000 milliseconds
             resetGame();
             UI.resetUI();
+            enddiv.textContent = '';
         },2000);
     }
     // returns true if is a win or 'Tie Game' if is a tie or 'No Tie' if it isnt a win or a tie.
@@ -203,6 +204,7 @@ let UI = (function ui(){
     let inSix = document.getElementById('six');
     let inSeven = document.getElementById('seven');
     let inEight = document.getElementById('eight');
+    let eventList = false;
 
     //This function will update the uiboard after making it a fresh array it returns that array
     function boardFetch(){
@@ -373,6 +375,7 @@ let UI = (function ui(){
         inSix.textContent = '';
         inSeven.textContent = '';
         inEight.textContent = '';
+        formHandler.resetForms();
     }
     // This will handle swapping the form ui around
     function formOneHandler(){
@@ -386,7 +389,12 @@ let UI = (function ui(){
         let boardG = document.getElementById('gameBody');
         formId.style.display = 'none';
         boardG.style.display = 'grid';
-        UI.addListeners();
+        if(eventList === false){
+            UI.addListeners();
+            eventList = true;
+        }else if(eventList === true){
+            return;
+        }
         return;
     }
     return{boardFetch,addListeners,resetUI,formOneHandler,formTwoHandler};
@@ -420,4 +428,20 @@ let formHandler = (function handleForms(){
             UI.formTwoHandler();
             formSubmissions = 3;        }
     }
+
+    function resetForms(){
+        let formId = document.getElementById('form');
+        let boardG = document.getElementById('gameBody');
+        let pcom = document.getElementById('pCom');
+        player1 = '';
+        player2 = '';
+        formSubmissions = 1;
+        formId.style.display = 'block';
+        boardG.style.display = 'none';
+        pcom.style.display = 'block';
+
+        return;
+    }
+
+    return {resetForms}
 })();
