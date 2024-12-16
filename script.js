@@ -1,19 +1,19 @@
 let players = [];
 let playerSign = ['X','O'];
 let playerNum = ['1','2'];
+let player1 = players[0];
+let player2 = players[1];
 
 let game = (function gameBoardCreate(){
     let gameBoard = ['','','',
                      '','','',
                      '','',''];
-    
+    let turnCount = 0;
     let winner = false;
-
-    function update(gameBoardDom){
+    // Updates the gameboard variable it receives the new gameboard array as its value.
+    function update(arr){
         // This function will look at the gameboard divs and update the gameboard approprietly
-        gameBoard.forEach(ele => {
-            
-        });
+        gameBoard = arr;
     }
     // returns true if is a win or 'Tie Game' if is a tie or 'No Tie' if it isnt a win or a tie.
     function checkWin(){
@@ -77,8 +77,28 @@ let game = (function gameBoardCreate(){
         };
         return 'Tie Game';
     };
+    // This function increases the turn value by one
+    function increaseTurns(){
+        turnCount++;
+    }
+    // This function will reset the game values
+    function resetGame(){
+        gameBoard = ['','','',
+                     '','','',
+                     '','',''];
+        turnCount = 0;
+        winner = false;
+    }
 
-    return {checkWin,checkTie,update};
+    function getTurnCount(){
+        return turnCount;
+    }
+
+    function checkBoard(){
+        return gameBoard;
+    }
+
+    return {checkWin,checkTie,update,increaseTurns,resetGame,getTurnCount,checkBoard};
 })();
 
 // Function to create players requires a name to be sent then intiate called on it to work
@@ -152,7 +172,7 @@ function playGame(){
 }
 
 // This function grabs the innerboard turns it into an array of each text value in order to replace our original gameboard
-let UI = (function ui(){
+function ui(){
     let uiboard;
     let inZero = document.getElementById('zero');
     let inOne = document.getElementById('one');
@@ -169,16 +189,120 @@ let UI = (function ui(){
         uiboard = [];
         uiboard.push(inZero.textContent);
         uiboard.push(inOne.textContent);
+        uiboard.push(inTwo.textContent);
+        uiboard.push(inThree.textContent);
+        uiboard.push(inFour.textContent);
+        uiboard.push(inFive.textContent);
+        uiboard.push(inSix.textContent);
+        uiboard.push(inSeven.textContent);
+        uiboard.push(inEight.textContent);
 
         return uiboard;
     }
+    // This function will add all the event listeners to the ui to allow for ui updates when you click and then game updates
+    function addListeners(){
+        inZero.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 0');
+            console.log(game.checkBoard());   
+        });
 
-    return{boardFetch};
-})();
+        inOne.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 1')
+            console.log(game.checkBoard());        
+        });
 
-let player1 = createPlayer('Mason','O');
-let player2 = createPlayer('Computer');
-player1.initiate();
-player2.initiate();
-console.log(game.checkWin())
-UI.boardFetch();
+        inTwo.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 2');
+            console.log(game.checkBoard());   
+        });
+
+        inThree.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 3');
+            console.log(game.checkBoard());   
+        });
+
+        inFour.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 4');
+            console.log(game.checkBoard());   
+        });
+
+        inFive.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 5');     
+            console.log(game.checkBoard());         
+        });
+
+        inSix.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 6');
+            console.log(game.checkBoard());   
+        });
+
+        inSeven.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 7');
+            console.log(game.checkBoard());   
+        });
+
+        inEight.addEventListener('click',(e)=>{
+            game.increaseTurns();
+            updateUi(e);
+            game.update(boardFetch());
+            console.log('Clicked box 8');
+            console.log(game.checkBoard());   
+        });
+    }
+
+    // This function will update the ui with whatever sign the player has
+    function updateUi(event){
+        if(game.getTurnCount() === 1 || game.getTurnCount() === 3 || game.getTurnCount() === 5 || game.getTurnCount() === 7 || game.getTurnCount() === 9){
+            if(event.target.textContent === ''){
+                let currS = 'X'
+                event.target.textContent = currS;
+                return;
+            }else{
+                return;
+            }
+        }else if(game.getTurnCount() === 2 || game.getTurnCount() === 4 || game.getTurnCount() === 6 || game.getTurnCount() === 8 || game.getTurnCount() === 10){
+            if(event.target.textContent === ''){
+                let currS = 'O'
+                event.target.textContent = currS;
+                return;
+            }else{
+                return;
+            }
+        }else{
+            return;
+        }
+    }
+
+    return{boardFetch,addListeners};
+};
+
+let mason = createPlayer('Mason');
+mason.initiate();
+let computer = createPlayer('Computer');
+computer.initiate();
+let UI = ui();
+UI.addListeners();
