@@ -1,3 +1,4 @@
+// The only three global variables I had to use.
 let players = [];
 let playerSign = ['X','O'];
 let playerNum = ['1','2'];
@@ -399,6 +400,7 @@ let UI = (function ui(){
     }
     return{boardFetch,addListeners,resetUI,formOneHandler,formTwoHandler};
 })();
+
 // This factory will handle the form data and swapping the ui to start a game
 let formHandler = (function handleForms(){
     let player1;
